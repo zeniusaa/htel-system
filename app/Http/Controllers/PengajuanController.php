@@ -454,7 +454,7 @@ class PengajuanController extends Controller
         $namaNasabah = Str::slug($namaNasabah, '_');
         $namaPpat    = Str::slug($namaPpat, '_');
 
-        $zipFileName = $namaNasabah . '_' . $namaPpat . '.zip';
+        $zipFileName = $namaNasabah . ' by ' . $namaPpat . '.zip';
         $zipPath = storage_path('app/public/' . $zipFileName);
 
         $dokumenList = [

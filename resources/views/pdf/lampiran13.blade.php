@@ -23,11 +23,11 @@ Di Tempat
 <p>Yang bertanda tangan di bawah ini :</p>
 
 <table>
-<tr><td width="120">Nama</td><td>: Budhi Haryanto Agus Setiawan</td></tr>
-<tr><td>Umur</td><td>: 3-08-1972</td></tr>
-<tr><td>Pekerjaan</td><td>: Karyawan Swasta</td></tr>
-<tr><td>Nomor KTP</td><td>: 3277010308720024</td></tr>
-<tr><td>Alamat</td><td>: Komp Telkom Jl Teleponia No 17 Kebon Kopi RT/RW 002/006 Kel. Cibeureum, Kec. Cimahi Selatan Kota Cimahi</td></tr>
+<tr><td width="120">Nama</td><td>: Andi Pratama Wijaya</td></tr>
+<tr><td>Umur</td><td>: 15-04-1985</td></tr>
+<tr><td>Pekerjaan</td><td>: Wiraswasta</td></tr>
+<tr><td>Nomor KTP</td><td>: 3175091504850001</td></tr>
+<tr><td>Alamat</td><td>: Jl. Melati Indah No. 12 RT/RW 003/005 Kel. Sukamaju, Kec. Sukasari, Kota Bandung</td></tr>
 </table>
 <br>
 

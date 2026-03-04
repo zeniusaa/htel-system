@@ -178,6 +178,7 @@
         <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
 
             <div class="bg-[#00A39D] px-6 py-4">
+                <h3 class="text-base font-semibold text-white flex items-center gap-2">
                     Dokumen Pengajuan
                 </h3>
             </div>
