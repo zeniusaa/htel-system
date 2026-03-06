@@ -68,6 +68,11 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "php artisan config:cache",
+            "php artisan route:cache"
         ]
     },
     "extra": {
@@ -86,4 +91,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true
+
 }
