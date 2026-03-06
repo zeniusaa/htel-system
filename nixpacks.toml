@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php" "phpExtensions.pdo_mysql" "nodejs" "yarn" "composer"]
+nixPkgs = ["php", "phpExtensions.pdo_mysql", "nodejs", "yarn", "composer"]
 
 [phases.build]
 cmds = [
