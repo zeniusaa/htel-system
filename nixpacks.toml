@@ -1,6 +1,11 @@
 [phases.setup]
-# Gunakan nama paket Nix yang valid
-nixPkgs = ["php", "phpExtensions.pdo_mysql", "phpComposer", "nodejs", "yarn"]
+# Paket Nix yang tersedia:
+# - php
+# - phpExtensions.pdo_mysql
+# - nodejs
+# - yarn
+# - composer (global)
+nixPkgs = ["php" "phpExtensions.pdo_mysql" "nodejs" "yarn" "composer"]
 
 [phases.build]
 cmds = [
