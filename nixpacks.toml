@@ -1,5 +1,6 @@
 [phases.setup]
-nixPkgs = ["php", "phpExtensions.pdo_mysql", "composer", "nodejs", "yarn"]
+# Gunakan nama paket Nix yang valid
+nixPkgs = ["php", "phpExtensions.pdo_mysql", "phpComposer", "nodejs", "yarn"]
 
 [phases.build]
 cmds = [
