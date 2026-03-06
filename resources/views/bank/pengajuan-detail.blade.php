@@ -35,7 +35,7 @@
                 <div class="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center min-h-[400px] overflow-hidden">
                     @if (isset($dokumen['KTP']))
                         <iframe id="viewer-debitur"
-                            src="{{ asset('storage/' . $dokumen['KTP']->file_path) }}"
+                            src="{{  $dokumen['KTP']->file_path) }}"
                             class="w-full h-96 rounded-lg">
                         </iframe>
                     @else
@@ -64,14 +64,14 @@
                         <p class="text-xs text-gray-500 font-medium mb-2">Dokumen Tersedia</p>
                         <div class="flex flex-wrap gap-2">
                             @if (isset($dokumen['KTP']))
-                                <button onclick="gantiFile('viewer-debitur', '{{ asset('storage/' . $dokumen['KTP']->file_path) }}', this)"
+                                <button onclick="gantiFile('viewer-debitur', '{{  $dokumen['KTP']->file_path) }}', this)"
                                     class="file-btn active">
                                     KTP
                                 </button>
                             @endif
 
                             @if (isset($dokumen['AKAD']))
-                                <button onclick="gantiFile('viewer-debitur', '{{ asset('storage/' . $dokumen['AKAD']->file_path) }}', this)"
+                                <button onclick="gantiFile('viewer-debitur', '{{  $dokumen['AKAD']->file_path) }}', this)"
                                     class="file-btn">
                                     AKAD
                                 </button>
@@ -99,7 +99,7 @@
                 {{-- FILE SERTIFIKAT --}}
                 <div class="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center min-h-[400px] overflow-hidden">
                     @if (isset($dokumen['SERTIFIKAT']))
-                        <iframe src="{{ asset('storage/' . $dokumen['SERTIFIKAT']->file_path) }}"
+                        <iframe src="{{  $dokumen['SERTIFIKAT']->file_path) }}"
                             class="w-full h-96 rounded-lg">
                         </iframe>
                     @else
@@ -145,7 +145,7 @@
                 <div class="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center min-h-[400px] overflow-hidden">
                     @if (isset($dokumen['APHT']))
                         <iframe id="viewer-apht"
-                            src="{{ asset('storage/' . $dokumen['APHT']->file_path) }}"
+                            src="{{  $dokumen['APHT']->file_path) }}"
                             class="w-full h-96 rounded-lg">
                         </iframe>
                     @else
@@ -182,14 +182,14 @@
                         <p class="text-xs text-gray-500 font-medium mb-2">Dokumen Tersedia</p>
                         <div class="flex flex-wrap gap-2">
                             @if (isset($dokumen['APHT']))
-                                <button onclick="gantiFile('viewer-apht', '{{ asset('storage/' . $dokumen['APHT']->file_path) }}', this)"
+                                <button onclick="gantiFile('viewer-apht', '{{  $dokumen['APHT']->file_path) }}', this)"
                                     class="file-btn active">
                                     APHT
                                 </button>
                             @endif
 
                             @if (isset($dokumen['SPA']))
-                                <button onclick="gantiFile('viewer-apht', '{{ asset('storage/' . $dokumen['SPA']->file_path) }}', this)"
+                                <button onclick="gantiFile('viewer-apht', '{{  $dokumen['SPA']->file_path) }}', this)"
                                     class="file-btn">
                                     SPA
                                 </button>
@@ -216,7 +216,7 @@
 
             <div class="p-6">
                 @if ($lamp13)
-                    <iframe src="{{ asset('storage/' . $lamp13->file_path) }}"
+                    <iframe src="{{  $lamp13->file_path) }}"
                         class="w-full h-96 border border-gray-200 rounded-lg">
                     </iframe>
 
@@ -291,7 +291,7 @@
                             <div>
                                 <p class="text-sm font-semibold text-gray-700 mb-3">Dokumen SPS</p>
                                 @if ($sps)
-                                    <iframe src="{{ asset('storage/' . $sps->file_path) }}"
+                                    <iframe src="{{  $sps->file_path) }}"
                                         class="w-full h-96 border border-gray-200 rounded-lg">
                                     </iframe>
                                 @else
@@ -303,7 +303,7 @@
                             <div>
                                 <p class="text-sm font-semibold text-gray-700 mb-3">Bukti Pembayaran</p>
                                 @if (in_array($pengajuan->status, ['DIBAYAR', 'TERBIT_SHT', 'SELESAI']) && $buktiBayar)
-                                    <iframe src="{{ asset('storage/' . $buktiBayar->file_path) }}"
+                                    <iframe src="{{  $buktiBayar->file_path) }}"
                                         class="w-full h-96 border border-gray-200 rounded-lg">
                                     </iframe>
                                 @elseif ($pengajuan->status === 'PERINTAH_SETOR')
@@ -464,7 +464,7 @@
                     @php $extension = pathinfo($sht->file_path, PATHINFO_EXTENSION); @endphp
 
                     @if ($extension === 'pdf')
-                        <iframe src="{{ asset('storage/' . $sht->file_path) }}"
+                        <iframe src="{{  $sht->file_path) }}"
                             class="w-full h-[500px] border border-gray-200 rounded-lg">
                         </iframe>
 
@@ -475,7 +475,7 @@
                             </a>
                         @endif
                     @else
-                        <img src="{{ asset('storage/' . $sht->file_path) }}"
+                        <img src="{{  $sht->file_path) }}"
                             class="w-full rounded-lg shadow-sm">
                     @endif
                 </div>

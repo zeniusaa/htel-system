@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengajuan;
 use App\Models\DokumenPengajuan;
+use App\Models\Pengajuan;
 use App\Models\Validasi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
-use Barryvdh\DomPDF\Facade\Pdf;
 use ZipArchive;
 
 class PengajuanController extends Controller
@@ -85,9 +84,9 @@ class PengajuanController extends Controller
     public function show($id)
     {
         $pengajuan = Pengajuan::with([
-                'dokumen.uploader',
-                'validasis.user'
-            ])
+            'dokumen.uploader',
+            'validasis.user',
+        ])
             ->where('id', $id)
             ->where('user_id', Auth::id())
             ->firstOrFail();
@@ -102,7 +101,7 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::where('id', $id)
             ->where('user_id', Auth::id())
-            ->whereIn('status', ['UPLOAD','DITANGGUHKAN'])
+            ->whereIn('status', ['UPLOAD', 'DITANGGUHKAN'])
             ->firstOrFail();
 
         return view('pengajuan.edit', compact('pengajuan'));
@@ -113,7 +112,7 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::where('id', $id)
             ->where('user_id', Auth::id())
-            ->whereIn('status', ['UPLOAD','DITANGGUHKAN'])
+            ->whereIn('status', ['UPLOAD', 'DITANGGUHKAN'])
             ->firstOrFail();
 
         $validated = $request->validate([
@@ -151,18 +150,19 @@ class PengajuanController extends Controller
         $request->validate([
             'jenis_dokumen' => 'required',
             'file' => 'required|mimes:pdf,jpg,jpeg,png|max:2048',
-            'keterangan' => 'nullable|string'
+            'keterangan' => 'nullable|string',
         ]);
 
-        $path = $request->file('file')
-            ->store('dokumen_pengajuan', 'public');
+        $uploadedFile = $request->file('file')
+            ->storeOnCloudinary('dokumen_pengajuan');
 
         DokumenPengajuan::create([
             'pengajuan_id' => $id,
             'uploaded_by' => Auth::id(),
             'jenis_dokumen' => $request->jenis_dokumen,
-            'file_path' => $path,
-            'keterangan' => $request->keterangan
+            'file_path' => $uploadedFile->getSecurePath(),
+            'public_id' => $uploadedFile->getPublicId(), // opsional, untuk delete
+            'keterangan' => $request->keterangan,
         ]);
 
         return back()->with('success', 'Dokumen berhasil diupload');
@@ -175,12 +175,16 @@ class PengajuanController extends Controller
 
         if (
             $pengajuan->user_id !== Auth::id() ||
-            !in_array($pengajuan->status, ['UPLOAD','DITANGGUHKAN'])
+            ! in_array($pengajuan->status, ['UPLOAD', 'DITANGGUHKAN'])
         ) {
             abort(403);
         }
 
-        Storage::disk('public')->delete($dokumen->file_path);
+        // Kalau simpan public_id:
+        if ($dokumen->public_id) {
+            \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::destroy($dokumen->public_id);
+        }
+        // Kalau tidak ada public_id, skip (Cloudinary auto-manage)
         $dokumen->delete();
 
         return back()->with('success', 'Dokumen berhasil dihapus');
@@ -191,10 +195,10 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::where('id', $id)
             ->where('user_id', Auth::id())
-            ->whereIn('status', ['UPLOAD','DITANGGUHKAN'])
+            ->whereIn('status', ['UPLOAD', 'DITANGGUHKAN'])
             ->firstOrFail();
 
-        $wajib = ['AKAD','APHT','SPA','KTP','SERTIFIKAT'];
+        $wajib = ['AKAD', 'APHT', 'SPA', 'KTP', 'SERTIFIKAT'];
 
         $lengkap = collect($wajib)->every(function ($j) use ($pengajuan) {
             return $pengajuan->dokumen()
@@ -202,7 +206,7 @@ class PengajuanController extends Controller
                 ->exists();
         });
 
-        if (!$lengkap) {
+        if (! $lengkap) {
             return back()->with('error', 'Dokumen belum lengkap');
         }
 
@@ -222,11 +226,12 @@ class PengajuanController extends Controller
             ->firstOrFail();
 
         $request->validate([
-            'file_bayar' => 'required|mimes:pdf,jpg,jpeg,png|max:2048'
+            'file_bayar' => 'required|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
         $path = $request->file('file_bayar')
-            ->store('dokumen_pengajuan', 'public');
+            ->storeOnCloudinary('dokumen_pengajuan')
+            ->getSecurePath();
 
         $dokumen = $pengajuan->dokumen()
             ->where('jenis_dokumen', 'BAYAR')
@@ -268,11 +273,15 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::where('id', $id)
             ->where('user_id', Auth::id())
-            ->whereIn('status', ['UPLOAD','DITANGGUHKAN'])
+            ->whereIn('status', ['UPLOAD', 'DITANGGUHKAN'])
             ->firstOrFail();
 
         foreach ($pengajuan->dokumen as $dokumen) {
-            Storage::disk('public')->delete($dokumen->file_path);
+            // Kalau simpan public_id:
+            if ($dokumen->public_id) {
+                \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::destroy($dokumen->public_id);
+            }
+            // Kalau tidak ada public_id, skip (Cloudinary auto-manage)
             $dokumen->delete();
         }
 
@@ -296,7 +305,7 @@ class PengajuanController extends Controller
         $pengajuan->load([
             'dokumen.uploader',
             'ppat',
-            'validasis.user'
+            'validasis.user',
         ]);
 
         $dokumen = $pengajuan->dokumen->keyBy('jenis_dokumen');
@@ -308,7 +317,7 @@ class PengajuanController extends Controller
     {
         $request->validate([
             'status' => 'required|in:DITANGGUHKAN,DIPROSES',
-            'catatan' => 'nullable|string'
+            'catatan' => 'nullable|string',
         ]);
 
         $pengajuan = Pengajuan::findOrFail($id);
@@ -317,7 +326,7 @@ class PengajuanController extends Controller
             'pengajuan_id' => $pengajuan->id,
             'user_id' => Auth::id(),
             'status_validasi' => $request->status,
-            'catatan' => $request->catatan
+            'catatan' => $request->catatan,
         ]);
 
         $pengajuan->update(['status' => $request->status]);
@@ -332,10 +341,12 @@ class PengajuanController extends Controller
         abort_if(Auth::user()->role !== 'BANK', 403);
 
         $request->validate([
-            'file_sps' => 'required|mimes:pdf|max:2048'
+            'file_sps' => 'required|mimes:pdf|max:2048',
         ]);
 
-        $path = $request->file('file_sps')->store('dokumen', 'public');
+        $path = $request->file('file_sps')
+            ->storeOnCloudinary('dokumen')
+            ->getSecurePath();
 
         $dokumen = $pengajuan->dokumen()
             ->where('jenis_dokumen', 'SPS')
@@ -368,11 +379,12 @@ class PengajuanController extends Controller
         }
 
         $request->validate([
-            'sht' => 'required|mimes:pdf,jpg,jpeg,png|max:2048'
+            'sht' => 'required|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
         $path = $request->file('sht')
-            ->store('dokumen_pengajuan', 'public');
+            ->storeOnCloudinary('dokumen_pengajuan')
+            ->getSecurePath();
 
         $dokumen = $pengajuan->dokumen()
             ->where('jenis_dokumen', 'SHT')
@@ -409,20 +421,31 @@ class PengajuanController extends Controller
         }
 
         $data = [
-            'pengajuan' => $pengajuan
+            'pengajuan' => $pengajuan,
         ];
 
+        // TETAP seperti ini (tidak perlu diubah):
         $pdf = Pdf::loadView('pdf.lampiran13', $data)
             ->setPaper('a4', 'portrait');
 
-        $fileName = 'lamp13_' . $pengajuan->id . '.pdf';
-        $filePath = 'dokumen_pengajuan/' . $fileName;
+        $fileName = 'lamp13_'.$pengajuan->id.'.pdf';
 
-        Storage::disk('public')->put($filePath, $pdf->output());
+        // Tapi upload PDF ke Cloudinary:
+        $pdfContent = $pdf->output();
+        $tempPath = sys_get_temp_dir().'/'.$fileName;
+        file_put_contents($tempPath, $pdfContent);
+
+        $uploadedFile = cloudinary()->upload($tempPath, [
+            'folder' => 'dokumen_pengajuan',
+            'resource_type' => 'raw',
+        ]);
+
+        unlink($tempPath); // Hapus temp file
 
         $pengajuan->dokumen()->create([
             'jenis_dokumen' => 'LAMP13',
-            'file_path' => $filePath,
+            'file_path' => $uploadedFile->getSecurePath(),
+            'public_id' => $uploadedFile->getPublicId(),
             'uploaded_by' => Auth::id(),
         ]);
 
@@ -437,7 +460,7 @@ class PengajuanController extends Controller
             ->where('jenis_dokumen', 'LAMP13')
             ->first();
 
-        if (!$lamp13) {
+        if (! $lamp13) {
             return back()->with('error', 'Lampiran 13 tidak ditemukan.');
         }
 
@@ -459,13 +482,13 @@ class PengajuanController extends Controller
         }
 
         $namaNasabah = $pengajuan->nama_debitur ?? 'Nasabah';
-        $namaPpat    = $pengajuan->ppat->name ?? 'PPAT';
+        $namaPpat = $pengajuan->ppat->name ?? 'PPAT';
 
         $namaNasabah = Str::slug($namaNasabah, '_');
-        $namaPpat    = Str::slug($namaPpat, '_');
+        $namaPpat = Str::slug($namaPpat, '_');
 
-        $zipFileName = $namaNasabah . ' by ' . $namaPpat . '.zip';
-        $zipPath = storage_path('app/public/' . $zipFileName);
+        $zipFileName = $namaNasabah.' by '.$namaPpat.'.zip';
+        $zipPath = storage_path('app/public/'.$zipFileName);
 
         $dokumenList = [
             'AKAD',
@@ -473,12 +496,12 @@ class PengajuanController extends Controller
             'KTP',
             'SPA',
             'LAMP13',
-            'SERTIFIKAT'
+            'SERTIFIKAT',
         ];
 
         $zip = new ZipArchive;
 
-        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
 
             foreach ($dokumenList as $jenis) {
 
@@ -486,12 +509,13 @@ class PengajuanController extends Controller
                     ->where('jenis_dokumen', $jenis)
                     ->first();
 
-                if ($dokumen && Storage::disk('public')->exists($dokumen->file_path)) {
+                if ($dokumen && $dokumen->file_path) {
+                    // Download dari Cloudinary
+                    $fileContent = file_get_contents($dokumen->file_path);
+                    $fileName = $jenis.'.'.pathinfo($dokumen->file_path, PATHINFO_EXTENSION);
 
-                    $filePath = storage_path('app/public/' . $dokumen->file_path);
-                    $fileName = $jenis . '.' . pathinfo($filePath, PATHINFO_EXTENSION);
-
-                    $zip->addFile($filePath, $fileName);
+                    // Add ke ZIP dari memory (bukan dari disk)
+                    $zip->addFromString($fileName, $fileContent);
                 }
             }
 
@@ -514,14 +538,14 @@ class PengajuanController extends Controller
             ->where('jenis_dokumen', 'SHT')
             ->firstOrFail();
 
-        $filePath = storage_path('app/public/' . $sht->file_path);
+        $filePath = storage_path('app/public/'.$sht->file_path);
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             abort(404, 'File tidak ditemukan');
         }
 
         $namaNasabah = Str::slug($pengajuan->nama_debitur, '_');
-        $fileName = 'SHT_' . $namaNasabah . '.pdf';
+        $fileName = 'SHT_'.$namaNasabah.'.pdf';
 
         return response()->download($filePath, $fileName);
     }

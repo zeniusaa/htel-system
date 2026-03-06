@@ -268,7 +268,7 @@
                     <div>
                         <p class="text-sm font-semibold text-gray-700 mb-3">Dokumen SPS</p>
                         @if ($sps)
-                            <iframe src="{{ asset('storage/' . $sps->file_path) }}"
+                            <iframe src="{{$sps->file_path) }}"
                                 class="w-full h-96 border border-gray-200 rounded-lg">
                             </iframe>
                         @else
@@ -295,7 +295,7 @@
                                 </button>
                             </form>
                         @elseif ($buktiBayar)
-                            <iframe src="{{ asset('storage/' . $buktiBayar->file_path) }}"
+                            <iframe src="{{  $buktiBayar->file_path) }}"
                                 class="w-full h-96 border border-gray-200 rounded-lg">
                             </iframe>
                         @else
@@ -325,7 +325,7 @@
                 </div>
 
                 <div class="p-6 space-y-4">
-                    <iframe src="{{ asset('storage/' . $sht->file_path) }}"
+                    <iframe src="{{  $sht->file_path) }}"
                         class="w-full h-[500px] border border-gray-200 rounded-lg">
                     </iframe>
 
@@ -409,7 +409,7 @@
                 </div>
 
                 <div class="flex-1 p-4">
-                    <iframe src="{{ asset('storage/' . $d->file_path) }}"
+                    <iframe src="{{  $d->file_path) }}"
                         class="w-full h-full border border-gray-200 rounded-lg">
                     </iframe>
                 </div>
