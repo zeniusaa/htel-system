@@ -3,7 +3,9 @@
   "builds": [
     { "src": "public/**/*", "use": "@vercel/static" }
   ],
+
   "routes": [
-    { "src": "/(.*)", "dest": "/" }
+    { "src": "/(.*)", "dest": "/public/index.php" }
   ]
+
 }
