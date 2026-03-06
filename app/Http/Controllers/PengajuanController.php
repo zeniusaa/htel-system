@@ -25,6 +25,16 @@ class PengajuanController extends Controller
     public function index()
     {
         $pengajuans = Pengajuan::where('user_id', Auth::id())
+            ->orderByRaw("FIELD(status,
+                'UPLOAD',
+                'DIAJUKAN',
+                'DIPROSES',
+                'DITANGGUHKAN',
+                'PERINTAH_SETOR',
+                'DIBAYAR',
+                'TERBIT_SHT',
+                'SELESAI'
+            )")
             ->latest()
             ->get();
 
