@@ -1,69 +1,20 @@
-# ===============================
-# LARAVEL
-# ===============================
-
 /vendor
 /node_modules
 /public/build
-/public/hot
 /storage/*.key
-
-# Storage (generated files)
 /storage/app/*
 /storage/framework/cache/*
 /storage/framework/sessions/*
-/storage/framework/testing/*
 /storage/framework/views/*
 /storage/logs/*
 
-# Laravel environment
 .env
 .env.backup
 .env.production
 .env.local
 
-# Laravel cache
-/bootstrap/cache/*.php
-/bootstrap/cache/*.json
 .phpunit.result.cache
-
-# ===============================
-# NPM / Vite
-# ===============================
-
-npm-debug.log
-yarn-error.log
-pnpm-debug.log
-
-# ===============================
-# Testing
-# ===============================
-
-/coverage
-/tests/coverage
-
-# ===============================
-# IDE
-# ===============================
-
-/.idea
-/.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-
-# ===============================
-# OS FILES
-# ===============================
-
+.idea
+.vscode
 .DS_Store
 Thumbs.db
-
-# ===============================
-# TEMP FILES
-# ===============================
-
-*.log
-*.tmp
-*.cache
