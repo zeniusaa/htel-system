@@ -22,10 +22,6 @@ Route::middleware(['auth'])->group(function () {
         [DashboardController::class, 'arsipSelesai']
     )->name('arsip.selesai');
 
-    Route::get('/health', function () {
-        return response()->json(['status' => 'ok']);
-    });
-
 
     // =========================
     // PENGAJUAN — PPAT
