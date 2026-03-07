@@ -81,20 +81,29 @@ class PengajuanController extends Controller
     }
 
     // DETAIL PPAT
-    public function show($id)
-    {
+public function show($id)
+{
+    try {
         $pengajuan = Pengajuan::with([
-            'dokumen.uploader',
-            'validasis.user',
-        ])
+                'dokumen',
+                'validasis.user'
+            ])
             ->where('id', $id)
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
+        // Safe keyBy - tidak error kalau kosong
         $dokumen = $pengajuan->dokumen->keyBy('jenis_dokumen');
 
         return view('pengajuan.show', compact('pengajuan', 'dokumen'));
+        
+    } catch (\Exception $e) {
+        // Log error untuk debugging
+        \Log::error('Error di pengajuan.show: ' . $e->getMessage());
+        
+        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
+}
 
     // EDIT
     public function edit($id)
