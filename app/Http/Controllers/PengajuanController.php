@@ -154,32 +154,32 @@ class PengajuanController extends Controller
     }
 
     // UPLOAD DOKUMEN
-    public function uploadDokumen(Request $request, $id)
-    {
-        $request->validate([
-            'jenis_dokumen' => 'required',
-            'file' => 'required|mimes:pdf,jpg,jpeg,png|max:2048',
-            'keterangan' => 'nullable|string',
-        ]);
+public function uploadDokumen(Request $request, $id)
+{
+    $request->validate([
+        'jenis_dokumen' => 'required',
+        'file' => 'required|mimes:pdf,jpg,jpeg,png|max:2048',
+        'keterangan' => 'nullable|string',
+    ]);
 
-        $uploadedFile = Cloudinary::upload(
-            $request->file('file')->getRealPath(),
-            [
-                'folder' => 'dokumen_pengajuan',
-            ]
-        );
+    $uploadedFile = \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::upload(
+        $request->file('file')->getRealPath(),
+        [
+            'folder' => 'dokumen_pengajuan'
+        ]
+    );
 
-        DokumenPengajuan::create([
-            'pengajuan_id' => $id,
-            'uploaded_by' => Auth::id(),
-            'jenis_dokumen' => $request->jenis_dokumen,
-            'file_path' => $uploadedFile->getSecurePath(),
-            'public_id' => $uploadedFile->getPublicId(),
-            'keterangan' => $request->keterangan,
-        ]);
+    DokumenPengajuan::create([
+        'pengajuan_id' => $id,
+        'uploaded_by' => auth()->id(),
+        'jenis_dokumen' => $request->jenis_dokumen,
+        'file_path' => $uploadedFile->getSecurePath(),
+        'public_id' => $uploadedFile->getPublicId(),
+        'keterangan' => $request->keterangan
+    ]);
 
-        return back()->with('success', 'Dokumen berhasil diupload');
-    }
+    return back()->with('success', 'Dokumen berhasil diupload');
+}
 
     // HAPUS DOKUMEN
     public function hapusDokumen(DokumenPengajuan $dokumen)
