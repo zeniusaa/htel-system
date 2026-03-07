@@ -6,9 +6,9 @@ use App\Models\DokumenPengajuan;
 use App\Models\Pengajuan;
 use App\Models\Validasi;
 use Barryvdh\DomPDF\Facade\Pdf;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ZipArchive;
 
@@ -81,29 +81,29 @@ class PengajuanController extends Controller
     }
 
     // DETAIL PPAT
-public function show($id)
-{
-    try {
-        $pengajuan = Pengajuan::with([
+    public function show($id)
+    {
+        try {
+            $pengajuan = Pengajuan::with([
                 'dokumen',
-                'validasis.user'
+                'validasis.user',
             ])
-            ->where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+                ->where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
 
-        // Safe keyBy - tidak error kalau kosong
-        $dokumen = $pengajuan->dokumen->keyBy('jenis_dokumen');
+            // Safe keyBy - tidak error kalau kosong
+            $dokumen = $pengajuan->dokumen->keyBy('jenis_dokumen');
 
-        return view('pengajuan.show', compact('pengajuan', 'dokumen'));
-        
-    } catch (\Exception $e) {
-        // Log error untuk debugging
-        \Log::error('Error di pengajuan.show: ' . $e->getMessage());
-        
-        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return view('pengajuan.show', compact('pengajuan', 'dokumen'));
+
+        } catch (\Exception $e) {
+            // Log error untuk debugging
+            \Log::error('Error di pengajuan.show: '.$e->getMessage());
+
+            return back()->with('error', 'Terjadi kesalahan: '.$e->getMessage());
+        }
     }
-}
 
     // EDIT
     public function edit($id)
@@ -162,15 +162,19 @@ public function show($id)
             'keterangan' => 'nullable|string',
         ]);
 
-        $uploadedFile = $request->file('file')
-            ->storeOnCloudinary('dokumen_pengajuan');
+        $uploadedFile = Cloudinary::upload(
+            $request->file('file')->getRealPath(),
+            [
+                'folder' => 'dokumen_pengajuan',
+            ]
+        );
 
         DokumenPengajuan::create([
             'pengajuan_id' => $id,
             'uploaded_by' => Auth::id(),
             'jenis_dokumen' => $request->jenis_dokumen,
             'file_path' => $uploadedFile->getSecurePath(),
-            'public_id' => $uploadedFile->getPublicId(), // opsional, untuk delete
+            'public_id' => $uploadedFile->getPublicId(),
             'keterangan' => $request->keterangan,
         ]);
 
@@ -238,9 +242,14 @@ public function show($id)
             'file_bayar' => 'required|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        $path = $request->file('file_bayar')
-            ->storeOnCloudinary('dokumen_pengajuan')
-            ->getSecurePath();
+        $uploadedFile = Cloudinary::upload(
+            $request->file('file_bayar')->getRealPath(),
+            [
+                'folder' => 'dokumen_pengajuan',
+            ]
+        );
+
+        $path = $uploadedFile->getSecurePath();
 
         $dokumen = $pengajuan->dokumen()
             ->where('jenis_dokumen', 'BAYAR')
@@ -353,9 +362,14 @@ public function show($id)
             'file_sps' => 'required|mimes:pdf|max:2048',
         ]);
 
-        $path = $request->file('file_sps')
-            ->storeOnCloudinary('dokumen')
-            ->getSecurePath();
+        $uploadedFile = Cloudinary::upload(
+            $request->file('file_sps')->getRealPath(),
+            [
+                'folder' => 'dokumen_pengajuan',
+            ]
+        );
+
+        $path = $uploadedFile->getSecurePath();
 
         $dokumen = $pengajuan->dokumen()
             ->where('jenis_dokumen', 'SPS')
@@ -391,9 +405,14 @@ public function show($id)
             'sht' => 'required|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        $path = $request->file('sht')
-            ->storeOnCloudinary('dokumen_pengajuan')
-            ->getSecurePath();
+        $uploadedFile = Cloudinary::upload(
+            $request->file('sht')->getRealPath(),
+            [
+                'folder' => 'dokumen_pengajuan',
+            ]
+        );
+
+        $path = $uploadedFile->getSecurePath();
 
         $dokumen = $pengajuan->dokumen()
             ->where('jenis_dokumen', 'SHT')
@@ -473,10 +492,12 @@ public function show($id)
             return back()->with('error', 'Lampiran 13 tidak ditemukan.');
         }
 
-        if (Storage::disk('public')->exists($lamp13->file_path)) {
-            Storage::disk('public')->delete($lamp13->file_path);
+        // Hapus file dari Cloudinary
+        if ($lamp13->public_id) {
+            \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::destroy($lamp13->public_id);
         }
 
+        // Hapus dari database
         $lamp13->delete();
 
         return back()->with('success', 'Lampiran 13 berhasil dihapus.');
@@ -547,15 +568,11 @@ public function show($id)
             ->where('jenis_dokumen', 'SHT')
             ->firstOrFail();
 
-        $filePath = storage_path('app/public/'.$sht->file_path);
-
-        if (! file_exists($filePath)) {
-            abort(404, 'File tidak ditemukan');
-        }
-
         $namaNasabah = Str::slug($pengajuan->nama_debitur, '_');
         $fileName = 'SHT_'.$namaNasabah.'.pdf';
 
-        return response()->download($filePath, $fileName);
+        return response()->streamDownload(function () use ($sht) {
+            echo file_get_contents($sht->file_path);
+        }, $fileName);
     }
 }
