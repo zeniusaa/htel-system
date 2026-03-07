@@ -139,6 +139,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/users/{id}/toggle', [UserController::class,'toggleStatus'])->name('users.toggle');
 
+    Route::get('/debug-cloudinary', function () {
+    return [
+        'cloud_url'  => config('cloudinary.cloud_url'),
+        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+        'key'        => env('CLOUDINARY_KEY') ? 'SET' : 'NULL',
+        'secret'     => env('CLOUDINARY_SECRET') ? 'SET' : 'NULL',
+    ];
+});
+
 });
 
 require __DIR__ . '/auth.php';
