@@ -268,8 +268,9 @@
                     <div>
                         <p class="text-sm font-semibold text-gray-700 mb-3">Dokumen SPS</p>
                         @if ($sps)
-                            <iframe src="{{$sps->file_path) }}"
-                                class="w-full h-96 border border-gray-200 rounded-lg">
+                            {{-- <iframe src="{{$sps->file_path) }}"
+                                class="w-full h-96 border border-gray-200 rounded-lg"> --}}
+                                <iframe src="{{ $sps->file_path }}">
                             </iframe>
                         @else
                             <div
@@ -295,8 +296,9 @@
                                 </button>
                             </form>
                         @elseif ($buktiBayar)
-                            <iframe src="{{  $buktiBayar->file_path) }}"
-                                class="w-full h-96 border border-gray-200 rounded-lg">
+                            {{-- <iframe src="{{  $buktiBayar->file_path) }}" --}}
+                                {{-- class="w-full h-96 border border-gray-200 rounded-lg"> --}}
+                                <iframe src="{{ $buktiBayar->file_path }}">
                             </iframe>
                         @else
                             <div
@@ -325,8 +327,9 @@
                 </div>
 
                 <div class="p-6 space-y-4">
-                    <iframe src="{{  $sht->file_path) }}"
-                        class="w-full h-[500px] border border-gray-200 rounded-lg">
+                    {{-- <iframe src="{{  $sht->file_path) }}"
+                        class="w-full h-[500px] border border-gray-200 rounded-lg"> --}}
+                        <iframe src="{{ $sht->file_path }}">
                     </iframe>
 
                     <div class="flex flex-wrap gap-3">
@@ -409,8 +412,9 @@
                 </div>
 
                 <div class="flex-1 p-4">
-                    <iframe src="{{  $d->file_path) }}"
-                        class="w-full h-full border border-gray-200 rounded-lg">
+                    {{-- <iframe src="{{  $d->file_path) }}"
+                        class="w-full h-full border border-gray-200 rounded-lg"> --}}
+                        <iframe src="{{ $d->file_path }}">
                     </iframe>
                 </div>
 

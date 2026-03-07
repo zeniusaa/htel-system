@@ -99,7 +99,7 @@
                 {{-- FILE SERTIFIKAT --}}
                 <div class="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center min-h-[400px] overflow-hidden">
                     @if (isset($dokumen['SERTIFIKAT']))
-                        <iframe src="{{  $dokumen['SERTIFIKAT']->file_path) }}"
+                        <iframe src="{{  $dokumen['SERTIFIKAT']->file_path }}"
                             class="w-full h-96 rounded-lg">
                         </iframe>
                     @else
@@ -216,7 +216,7 @@
 
             <div class="p-6">
                 @if ($lamp13)
-                    <iframe src="{{  $lamp13->file_path) }}"
+                    <iframe src="{{ $lamp13->file_path }}"
                         class="w-full h-96 border border-gray-200 rounded-lg">
                     </iframe>
 
@@ -291,7 +291,7 @@
                             <div>
                                 <p class="text-sm font-semibold text-gray-700 mb-3">Dokumen SPS</p>
                                 @if ($sps)
-                                    <iframe src="{{  $sps->file_path) }}"
+                                    <iframe src="{{  $sps->file_path }}"
                                         class="w-full h-96 border border-gray-200 rounded-lg">
                                     </iframe>
                                 @else
@@ -303,7 +303,7 @@
                             <div>
                                 <p class="text-sm font-semibold text-gray-700 mb-3">Bukti Pembayaran</p>
                                 @if (in_array($pengajuan->status, ['DIBAYAR', 'TERBIT_SHT', 'SELESAI']) && $buktiBayar)
-                                    <iframe src="{{  $buktiBayar->file_path) }}"
+                                    <iframe src="{{  $buktiBayar->file_path }}"
                                         class="w-full h-96 border border-gray-200 rounded-lg">
                                     </iframe>
                                 @elseif ($pengajuan->status === 'PERINTAH_SETOR')
@@ -464,7 +464,7 @@
                     @php $extension = pathinfo($sht->file_path, PATHINFO_EXTENSION); @endphp
 
                     @if ($extension === 'pdf')
-                        <iframe src="{{  $sht->file_path) }}"
+                        <iframe src="{{  $sht->file_path }}"
                             class="w-full h-[500px] border border-gray-200 rounded-lg">
                         </iframe>
 
