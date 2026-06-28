@@ -8,14 +8,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
     public function index()
     {
-
         // PPAT tampil dulu baru BANK
-        $users = User::orderByRaw("FIELD(role, 'PPAT', 'BANK')")
-                    ->latest()
-                    ->get();
+        $users = User::orderByRaw("FIELD(role, 'PPAT', 'BANK')")->latest()->get();
 
         return view('users.index', compact('users'));
     }
@@ -31,7 +27,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'role' => 'required'
+            'role' => 'required',
         ]);
 
         User::create([
@@ -39,11 +35,10 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'status_ppat' => $request->role == 'PPAT' ? 'AKTIF' : null
+            'status_ppat' => $request->role == 'PPAT' ? 'AKTIF' : null,
         ]);
 
-        return redirect()->route('users.index')
-            ->with('success','User berhasil dibuat');
+        return redirect()->route('users.index')->with('success', 'User berhasil dibuat');
     }
 
     public function toggleStatus($id)
@@ -51,10 +46,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->role == 'PPAT') {
-
-            $user->status_ppat = $user->status_ppat == 'AKTIF'
-                ? 'NONAKTIF'
-                : 'AKTIF';
+            $user->status_ppat = $user->status_ppat == 'AKTIF' ? 'NONAKTIF' : 'AKTIF';
 
             $user->save();
         }

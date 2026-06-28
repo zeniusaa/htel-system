@@ -49,31 +49,36 @@
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Nama Debitur</label>
                         <input name="nama_debitur" value="{{ old('nama_debitur') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">NIK</label>
                         <input name="nik" value="{{ old('nik') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Tanggal Lahir</label>
                         <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Pekerjaan</label>
                         <input name="pekerjaan" value="{{ old('pekerjaan') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-medium text-gray-500 mb-1">Alamat</label>
                         <textarea name="alamat" rows="3"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent resize-none" required>{{ old('alamat') }}</textarea>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent resize-none"
+                            required>{{ old('alamat') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -93,7 +98,8 @@
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Jenis Hak</label>
                         <select name="jenis_hak"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                             <option value="SHM" {{ old('jenis_hak') === 'SHM' ? 'selected' : '' }}>
                                 SHM (Sertifikat Hak Milik)
                             </option>
@@ -106,45 +112,52 @@
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">No Sertifikat</label>
                         <input name="no_sertifikat" value="{{ old('no_sertifikat') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                         <p class="text-xs text-gray-400 italic mt-1">* Jika No NIB, tulis dengan NIBnya</p>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Pemilik Sertifikat</label>
                         <input name="pemilik_sertifikat" value="{{ old('pemilik_sertifikat') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Kantor Pertanahan</label>
                         <input name="kantor_pertanahan" value="{{ old('kantor_pertanahan') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                         <p class="text-xs text-gray-400 italic mt-1">* Dapat dilihat pada dokumen SPA</p>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Desa</label>
                         <input name="desa" value="{{ old('desa') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Kecamatan</label>
                         <input name="kecamatan" value="{{ old('kecamatan') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Kota / Kabupaten</label>
                         <input name="kota" value="{{ old('kota') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Provinsi</label>
                         <input name="provinsi" value="{{ old('provinsi') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
                 </div>
             </div>
@@ -164,19 +177,22 @@
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">No APHT</label>
                         <input name="no_apht" value="{{ old('no_apht') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Tanggal APHT</label>
                         <input type="date" name="tanggal_apht" value="{{ old('tanggal_apht') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-500 mb-1">Peringkat</label>
                         <input name="peringkat_apht" value="{{ old('peringkat_apht') }}"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent" required>
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent"
+                            required>
                     </div>
 
                     <div>
@@ -209,9 +225,9 @@
 
     <script>
         const display = document.getElementById('nominal_display');
-        const hidden  = document.getElementById('nominal');
+        const hidden = document.getElementById('nominal');
 
-        display.addEventListener('input', function () {
+        display.addEventListener('input', function() {
             let value = this.value.replace(/[^0-9]/g, '');
             hidden.value = value;
             this.value = value ? 'Rp ' + value.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '';

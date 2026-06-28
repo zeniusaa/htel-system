@@ -42,8 +42,7 @@
     </div>
 
     <div class="flex justify-end">
-        <button type="submit"
-            class="bg-[#00A39D] text-white px-5 py-2 rounded-lg hover:bg-[#008C86]">
+        <button type="submit" class="bg-[#00A39D] text-white px-5 py-2 rounded-lg hover:bg-[#008C86]">
             Update Password
         </button>
     </div>

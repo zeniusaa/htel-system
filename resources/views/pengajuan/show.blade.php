@@ -166,91 +166,91 @@
             </div>
         @endif
 
-{{-- ============================
+        {{-- ============================
          DOKUMEN PENGAJUAN
     ============================= --}}
-@php
-    $jenisDokumen = ['AKAD', 'APHT', 'SPA', 'KTP', 'SERTIFIKAT', 'LAMP13'];
-    $dokumenPenting = ['AKAD', 'APHT', 'SPA', 'KTP', 'SERTIFIKAT'];
-    $dokumenByJenis = $pengajuan->dokumen->keyBy('jenis_dokumen');
-    $bisaEdit = in_array($pengajuan->status, ['UPLOAD', 'DITANGGUHKAN']);
-@endphp
+        @php
+            $jenisDokumen = ['AKAD', 'APHT', 'SPA', 'KTP', 'SERTIFIKAT', 'LAMP13'];
+            $dokumenPenting = ['AKAD', 'APHT', 'SPA', 'KTP', 'SERTIFIKAT'];
+            $dokumenByJenis = $pengajuan->dokumen->keyBy('jenis_dokumen');
+            $bisaEdit = in_array($pengajuan->status, ['UPLOAD', 'DITANGGUHKAN']);
+        @endphp
 
-<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
 
-    <div class="bg-[#00A39D] px-6 py-4">
-        <h3 class="text-base font-semibold text-white flex items-center gap-2">
-            Dokumen Pengajuan
-        </h3>
-    </div>
-
-    <div class="p-6 space-y-3">
-        @foreach ($jenisDokumen as $jenis)
-            <div
-                class="flex items-center justify-between border border-gray-100 rounded-lg px-4 py-3 hover:bg-gray-50 transition-colors duration-150">
-
-                <div class="flex items-center gap-3">
-                    @if (isset($dokumenByJenis[$jenis]))
-                        <span
-                            class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                        </span>
-                    @else
-                        <span
-                            class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                        </span>
-                    @endif
-
-                    <span class="text-sm font-semibold text-gray-800">
-                        {{ $jenis }}
-                        @if (in_array($jenis, $dokumenPenting))
-                            <span class="text-red-500 ml-0.5">*</span>
-                        @endif
-                    </span>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    @if (!isset($dokumenByJenis[$jenis]))
-                        @if ($bisaEdit)
-                            <form method="POST"
-                                action="{{ route('pengajuan.uploadDokumen', $pengajuan->id) }}"
-                                enctype="multipart/form-data" class="flex items-center gap-2">
-                                @csrf
-                                <input type="hidden" name="jenis_dokumen" value="{{ $jenis }}">
-                                <input type="file" name="file" required
-                                    class="text-xs text-gray-600 border border-gray-300 rounded-lg px-2 py-1.5">
-                                <button type="submit"
-                                    class="px-3 py-1.5 bg-[#00A39D] hover:bg-[#008C86] text-white text-xs font-medium rounded-lg transition-colors duration-200">
-                                    Upload
-                                </button>
-                            </form>
-                        @else
-                            <span class="text-xs text-gray-400 italic">Belum ada</span>
-                        @endif
-                    @else
-                        <button
-                            onclick="document.getElementById('modal-{{ $dokumenByJenis[$jenis]->id }}').classList.remove('hidden')"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors duration-200">
-                            Lihat
-                        </button>
-
-                        @if ($bisaEdit)
-                            <form method="POST"
-                                action="{{ route('pengajuan.hapusDokumen', $dokumenByJenis[$jenis]->id) }}"
-                                onsubmit="return confirm('Hapus dokumen ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg transition-colors duration-200">
-                                    Hapus
-                                </button>
-                            </form>
-                        @endif
-                    @endif
-                </div>
+            <div class="bg-[#00A39D] px-6 py-4">
+                <h3 class="text-base font-semibold text-white flex items-center gap-2">
+                    Dokumen Pengajuan
+                </h3>
             </div>
-        @endforeach
-    </div>
-</div>
+
+            <div class="p-6 space-y-3">
+                @foreach ($jenisDokumen as $jenis)
+                    <div
+                        class="flex items-center justify-between border border-gray-100 rounded-lg px-4 py-3 hover:bg-gray-50 transition-colors duration-150">
+
+                        <div class="flex items-center gap-3">
+                            @if (isset($dokumenByJenis[$jenis]))
+                                <span
+                                    class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                </span>
+                            @else
+                                <span
+                                    class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                                </span>
+                            @endif
+
+                            <span class="text-sm font-semibold text-gray-800">
+                                {{ $jenis }}
+                                @if (in_array($jenis, $dokumenPenting))
+                                    <span class="text-red-500 ml-0.5">*</span>
+                                @endif
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            @if (!isset($dokumenByJenis[$jenis]))
+                                @if ($bisaEdit)
+                                    <form method="POST"
+                                        action="{{ route('pengajuan.uploadDokumen', $pengajuan->id) }}"
+                                        enctype="multipart/form-data" class="flex items-center gap-2">
+                                        @csrf
+                                        <input type="hidden" name="jenis_dokumen" value="{{ $jenis }}">
+                                        <input type="file" name="file" required
+                                            class="text-xs text-gray-600 border border-gray-300 rounded-lg px-2 py-1.5">
+                                        <button type="submit"
+                                            class="px-3 py-1.5 bg-[#00A39D] hover:bg-[#008C86] text-white text-xs font-medium rounded-lg transition-colors duration-200">
+                                            Upload
+                                        </button>
+                                    </form>
+                                @else
+                                    <span class="text-xs text-gray-400 italic">Belum ada</span>
+                                @endif
+                            @else
+                                <button
+                                    onclick="document.getElementById('modal-{{ $dokumenByJenis[$jenis]->id }}').classList.remove('hidden')"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors duration-200">
+                                    Lihat
+                                </button>
+
+                                @if ($bisaEdit)
+                                    <form method="POST"
+                                        action="{{ route('pengajuan.hapusDokumen', $dokumenByJenis[$jenis]->id) }}"
+                                        onsubmit="return confirm('Hapus dokumen ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg transition-colors duration-200">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
 
         {{-- ============================
              SPS & BUKTI BAYAR

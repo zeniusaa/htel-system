@@ -6,13 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DokumenPengajuan extends Model
 {
-    protected $fillable = [
-        'pengajuan_id',
-        'uploaded_by',
-        'jenis_dokumen',
-        'file_path',
-        'keterangan'
-    ];
+    protected $fillable = ['pengajuan_id', 'uploaded_by', 'jenis_dokumen', 'file_path', 'keterangan'];
 
     public function pengajuan()
     {

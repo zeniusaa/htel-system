@@ -1,70 +1,123 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<style>
-    @page { margin: 1cm 1.7cm; }
-    body { font-family: "Times New Roman"; font-size: 10pt; }
-</style>
+    <meta charset="utf-8">
+    <style>
+        @page {
+            margin: 1cm 1.7cm;
+        }
+
+        body {
+            font-family: "Times New Roman";
+            font-size: 10pt;
+        }
+    </style>
 </head>
+
 <body>
 
-<p>Bandung, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</p>
+    <p>Bandung, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</p>
 
-<p>
-Kepada Yth:<br>
-Kepala Kantor Pertanahan<br>
-{{ $pengajuan->kantor_pertanahan }}<br>
-Di Tempat
-</p>
+    <p>
+        Kepada Yth:<br>
+        Kepala Kantor Pertanahan<br>
+        {{ $pengajuan->kantor_pertanahan }}<br>
+        Di Tempat
+    </p>
 
-<br>
+    <br>
 
-<p>Yang bertanda tangan di bawah ini :</p>
+    <p>Yang bertanda tangan di bawah ini :</p>
 
-<table>
-<tr><td width="120">Nama</td><td>: Wawan Setiawan</td></tr>
-<tr><td>Umur</td><td>: 3-08-1972</td></tr>
-<tr><td>Pekerjaan</td><td>: Karyawan Swasta</td></tr>
-<tr><td>Nomor KTP</td><td>: 32770103087100023</td></tr>
-<tr><td>Alamat</td><td>: Komp Jupiter Jl Telkomsel No 17 Kebon Sawit RT/RW 002/006 Kel. Cihijau, Kec. Cihideung Kota Cimareme</td></tr>
-</table>
-<br>
+    <table>
+        <tr>
+            <td width="120">Nama</td>
+            <td>: Wawan Setiawan</td>
+        </tr>
+        <tr>
+            <td>Umur</td>
+            <td>: 3-08-1972</td>
+        </tr>
+        <tr>
+            <td>Pekerjaan</td>
+            <td>: Karyawan Swasta</td>
+        </tr>
+        <tr>
+            <td>Nomor KTP</td>
+            <td>: 32770103087100023</td>
+        </tr>
+        <tr>
+            <td>Alamat</td>
+            <td>: Komp Jupiter Jl Telkomsel No 17 Kebon Sawit RT/RW 002/006 Kel. Cihijau, Kec. Cihideung Kota Cimareme
+            </td>
+        </tr>
+    </table>
+    <br>
 
-<p>Selaku kuasa dari :</p>
+    <p>Selaku kuasa dari :</p>
 
-<table>
-<tr><td width="120">Nama</td><td>: {{ $pengajuan->nama_debitur }}</td></tr>
-<tr><td>Umur</td><td>: {{ $pengajuan->tanggal_lahir }}</td></tr>
-<tr><td>Pekerjaan</td><td>: {{ $pengajuan->pekerjaan }}</td></tr>
-<tr><td>Nomor KTP</td><td>: {{ $pengajuan->nik }}</td></tr>
-<tr><td>Alamat</td><td>: {{ $pengajuan->alamat }}</td></tr>
-</table>
+    <table>
+        <tr>
+            <td width="120">Nama</td>
+            <td>: {{ $pengajuan->nama_debitur }}</td>
+        </tr>
+        <tr>
+            <td>Umur</td>
+            <td>: {{ $pengajuan->tanggal_lahir }}</td>
+        </tr>
+        <tr>
+            <td>Pekerjaan</td>
+            <td>: {{ $pengajuan->pekerjaan }}</td>
+        </tr>
+        <tr>
+            <td>Nomor KTP</td>
+            <td>: {{ $pengajuan->nik }}</td>
+        </tr>
+        <tr>
+            <td>Alamat</td>
+            <td>: {{ $pengajuan->alamat }}</td>
+        </tr>
+    </table>
 
-<br>
+    <br>
 
-<p>Atas bidang tanah :</p>
+    <p>Atas bidang tanah :</p>
 
-<table>
-<tr><td width="140">Desa</td><td>: {{ $pengajuan->desa }}</td></tr>
-<tr><td>Kecamatan</td><td>: {{ $pengajuan->kecamatan }}</td></tr>
-<tr><td>Kota</td><td>: {{ $pengajuan->kota }}</td></tr>
-<tr><td>Nomor Hak</td><td>: {{ $pengajuan->no_sertifikat }}</td></tr>
-</table>
+    <table>
+        <tr>
+            <td width="140">Desa</td>
+            <td>: {{ $pengajuan->desa }}</td>
+        </tr>
+        <tr>
+            <td>Kecamatan</td>
+            <td>: {{ $pengajuan->kecamatan }}</td>
+        </tr>
+        <tr>
+            <td>Kota</td>
+            <td>: {{ $pengajuan->kota }}</td>
+        </tr>
+        <tr>
+            <td>Nomor Hak</td>
+            <td>: {{ $pengajuan->no_sertifikat }}</td>
+        </tr>
+    </table>
 
-<br>
+    <br>
 
-<p>Lampiran:</p>
-<p>APHT No {{ $pengajuan->no_apht }} Tanggal {{ $pengajuan->tanggal_apht }} diikat denga HT peringkat {{ $pengajuan->peringkat_apht }} Senilai Rp. {{ $pengajuan->nominal }}
-</p>
+    <p>Lampiran:</p>
+    <p>APHT No {{ $pengajuan->no_apht }} Tanggal {{ $pengajuan->tanggal_apht }} diikat denga HT peringkat
+        {{ $pengajuan->peringkat_apht }} Senilai Rp. {{ $pengajuan->nominal }}
+    </p>
 
-<br><br>
+    <br><br>
 
-<p>Hormat Kami,</p>
-<br><br>
+    <p>Hormat Kami,</p>
+    <br><br>
 
-<b>Wawan Setiawan</b><br>
-FC MANAGER
+    <b>Wawan Setiawan</b><br>
+    FC MANAGER
 
 </body>
+
 </html>

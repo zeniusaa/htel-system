@@ -1,9 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-            <h2 class="text-xl font-semibold text-white">
+        <h2 class="text-xl font-semibold text-white">
             Arsip Pengajuan Selesai
         </h2>
-            <p class="text-sm text-white/80">
+        <p class="text-sm text-white/80">
             Daftar pengajuan dengan status SELESAI
         </p>
     </x-slot>
@@ -24,25 +24,22 @@
                 </h3>
             </div>
 
-                <form method="GET" class="flex gap-2 flex-wrap">
+            <form method="GET" class="flex gap-2 flex-wrap">
 
-        <input type="text"
-               name="search"
-               value="{{ request('search') }}"
-               placeholder="Cari data..."
-               class="border rounded px-3 py-2 text-sm">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari data..."
+                    class="border rounded px-3 py-2 text-sm">
 
-        <button class="bg-blue-600 text-white px-4 py-2 rounded text-sm">
-            Cari
-        </button>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded text-sm">
+                    Cari
+                </button>
 
-        <a href="{{ route(Route::currentRouteName()) }}"
-           class="bg-gray-500 text-white px-4 py-2 rounded text-sm">
-            Reset
-        </a>
+                <a href="{{ route(Route::currentRouteName()) }}"
+                    class="bg-gray-500 text-white px-4 py-2 rounded text-sm">
+                    Reset
+                </a>
 
-    </form>
-            
+            </form>
+
 
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">

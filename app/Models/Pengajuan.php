@@ -10,7 +10,6 @@ class Pengajuan extends Model
     use HasFactory;
 
     protected $fillable = [
-
         'user_id',
 
         // Debitur
@@ -37,9 +36,8 @@ class Pengajuan extends Model
         'kantor_pertanahan',
 
         // Status
-        'status'
+        'status',
     ];
-
 
     /*
     |--------------------------------------------------------------------------
@@ -47,13 +45,11 @@ class Pengajuan extends Model
     |--------------------------------------------------------------------------
     */
 
-
     // PPAT yang membuat pengajuan
     public function ppat()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
 
     // Dokumen pengajuan
     public function dokumen()
@@ -61,13 +57,11 @@ class Pengajuan extends Model
         return $this->hasMany(DokumenPengajuan::class);
     }
 
-
     // Riwayat validasi BANK
     public function validasis()
     {
         return $this->hasMany(Validasi::class, 'pengajuan_id');
     }
-
 
     /*
     |--------------------------------------------------------------------------

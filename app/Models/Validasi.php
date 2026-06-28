@@ -9,12 +9,7 @@ class Validasi extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'pengajuan_id',
-        'user_id',
-        'status_validasi',
-        'catatan'
-    ];
+    protected $fillable = ['pengajuan_id', 'user_id', 'status_validasi', 'catatan'];
 
     public function pengajuan()
     {
