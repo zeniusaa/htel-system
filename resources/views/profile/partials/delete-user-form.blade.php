@@ -1,4 +1,4 @@
-<section class="space-y-6">
+{{-- <section class="space-y-6">
 
     <p class="text-sm text-gray-600">
         Setelah akun dihapus, semua data akan hilang permanen.
@@ -19,4 +19,4 @@
         </button>
     </div>
 
-</section>
+</section> --}}

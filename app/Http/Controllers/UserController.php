@@ -11,9 +11,6 @@ class UserController extends Controller
 
     public function index()
     {
-        if (auth()->user()->role != 'BANK') {
-            abort(403);
-        }
 
         // PPAT tampil dulu baru BANK
         $users = User::orderByRaw("FIELD(role, 'PPAT', 'BANK')")

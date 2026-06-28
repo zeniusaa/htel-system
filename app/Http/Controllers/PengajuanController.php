@@ -17,19 +17,6 @@ class PengajuanController extends Controller
 {
 
     // =========================
-    // LIST PENGAJUAN PPAT
-    // =========================
-    public function index()
-    {
-        $pengajuans = Pengajuan::where('user_id', Auth::id())
-            ->latest()
-            ->get();
-
-        return view('dashboard', compact('pengajuans'));
-    }
-
-
-    // =========================
     // FORM TAMBAH
     // =========================
     public function create()
@@ -261,7 +248,7 @@ class PengajuanController extends Controller
     // =========================
     public function showBank(Pengajuan $pengajuan)
     {
-        abort_if(Auth::user()->role !== 'BANK', 403);
+
 
         $pengajuan->load([
             'dokumen.uploader',
@@ -308,7 +295,7 @@ class PengajuanController extends Controller
 
     public function uploadSps(Request $request, Pengajuan $pengajuan)
     {
-        abort_if(Auth::user()->role !== 'BANK', 403);
+
 
         $request->validate([
             'file_sps' => 'required|mimes:pdf|max:2048'
@@ -384,7 +371,7 @@ class PengajuanController extends Controller
 
 public function uploadSht(Request $request, Pengajuan $pengajuan)
 {
-    abort_if(Auth::user()->role !== 'BANK', 403);
+
 
     if ($pengajuan->status !== 'DIBAYAR') {
         abort(403, 'Status tidak valid untuk upload SHT');
@@ -437,7 +424,7 @@ public function selesai($id)
 
 public function generateLamp13(Pengajuan $pengajuan)
 {
-    abort_if(Auth::user()->role !== 'BANK', 403);
+
 
     // cek apakah sudah ada
     $existing = $pengajuan->dokumen()
@@ -473,7 +460,7 @@ public function generateLamp13(Pengajuan $pengajuan)
 // =========================
 public function hapusLamp13(Pengajuan $pengajuan)
 {
-    abort_if(Auth::user()->role !== 'BANK', 403);
+
 
     // Ambil dokumen LAMP13
     $lamp13 = $pengajuan->dokumen()
@@ -497,7 +484,7 @@ public function hapusLamp13(Pengajuan $pengajuan)
 
 public function downloadZip(Pengajuan $pengajuan)
 {
-    abort_if(Auth::user()->role !== 'BANK', 403);
+
 
     if ($pengajuan->status !== 'DIPROSES') {
         abort(403, 'Dokumen hanya bisa diunduh saat status DIPROSES.');

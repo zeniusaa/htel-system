@@ -24,42 +24,53 @@ class DashboardController extends Controller
     | DASHBOARD PPAT
     |--------------------------------------------------------------------------
     */
-    private function dashboardPpat(Request $request, $user)
-    {
-        $query = Pengajuan::where('user_id', $user->id)
-            ->where('status', '!=', 'SELESAI');
+private function dashboardPpat(Request $request, $user)
+{
+    $query = Pengajuan::where('user_id', $user->id)
+        ->where('status', '!=', 'SELESAI');
 
-        // Search
-        if ($request->filled('search')) {
-            $query->where('nama_debitur', 'like', "%{$request->search}%");
-        }
-
-        // Filter status
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        $pengajuans = $query->latest()->get();
-
-        $statistik = $this->generateStatistikPPAT($user->id);
-
-        return view('dashboard.ppat', compact('pengajuans', 'statistik'));
+    if ($request->filled('search')) {
+        $query->where('nama_debitur', 'like', "%{$request->search}%");
     }
+
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    $pengajuans = $query
+        ->orderByRaw("CASE status
+            WHEN 'UPLOAD'          THEN 1
+            WHEN 'DIAJUKAN'        THEN 2
+            WHEN 'DIPROSES'        THEN 3
+            WHEN 'DITANGGUHKAN'    THEN 4
+            WHEN 'PERINTAH_SETOR'  THEN 5
+            WHEN 'DIBAYAR'         THEN 6
+            WHEN 'TERBIT_SHT'      THEN 7
+            ELSE 8 END")
+        ->latest()
+        ->get();
+
+    $statistik = $this->generateStatistikPPAT($user->id);
+
+    return view('dashboard.ppat', compact('pengajuans', 'statistik'));
+}
 
     private function generateStatistikPPAT($userId)
-    {
-        $data = Pengajuan::where('user_id', $userId)->get();
+{
+    $counts = Pengajuan::where('user_id', $userId)
+        ->selectRaw('status, COUNT(*) as total')
+        ->groupBy('status')
+        ->pluck('total', 'status');
 
-        return [
-            'UPLOAD' => $data->where('status', 'UPLOAD')->count(),
-            'DIAJUKAN' => $data->where('status', 'DIAJUKAN')->count(),
-            'DIPROSES' => $data->where('status', 'DIPROSES')->count(),
-            'DITANGGUHKAN' => $data->where('status', 'DITANGGUHKAN')->count(),
-            'PERINTAH_SETOR' => $data->where('status', 'PERINTAH_SETOR')->count(),
-            'DIBAYAR' => $data->where('status', 'DIBAYAR')->count(),
-            'TERBIT_SHT' => $data->where('status', 'TERBIT_SHT')->count(),
-        ];
-    }
+    $statusList = [
+        'UPLOAD', 'DIAJUKAN', 'DIPROSES', 'DITANGGUHKAN',
+        'PERINTAH_SETOR', 'DIBAYAR', 'TERBIT_SHT'
+    ];
+
+    return collect($statusList)
+        ->mapWithKeys(fn($s) => [$s => $counts->get($s, 0)])
+        ->all();
+}
 
     /*
     |--------------------------------------------------------------------------
@@ -67,83 +78,100 @@ class DashboardController extends Controller
     |--------------------------------------------------------------------------
     */
     private function dashboardBank(Request $request)
-    {
-        $query = Pengajuan::with('ppat')
-            ->whereNotIn('status', ['UPLOAD', 'SELESAI']);
+{
+    $query = Pengajuan::with('ppat')
+        ->whereNotIn('status', ['UPLOAD', 'SELESAI']);
 
-        if ($request->filled('search')) {
-            $search = $request->search;
+    if ($request->filled('search')) {
+        $search = $request->search;
 
-            $query->where(function ($q) use ($search) {
-                $q->where('nama_debitur', 'like', "%$search%")
-                  ->orWhereHas('ppat', function ($ppat) use ($search) {
-                      $ppat->where('name', 'like', "%$search%");
-                  });
-            });
-        }
-
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        $pengajuans = $query
-            ->orderByRaw("CASE WHEN status = 'DIAJUKAN' THEN 1 ELSE 2 END")
-            ->latest()
-            ->get();
-
-        $statistik = $this->generateStatistikBank();
-
-        return view('dashboard.bank', compact('pengajuans', 'statistik'));
+        $query->where(function ($q) use ($search) {
+            $q->where('nama_debitur', 'like', "%$search%")
+              ->orWhereHas('ppat', function ($ppat) use ($search) {
+                  $ppat->where('name', 'like', "%$search%");
+              });
+        });
     }
 
-    private function generateStatistikBank()
-    {
-        $data = Pengajuan::where('status', '!=', 'UPLOAD')->get();
-
-        return [
-            'DIAJUKAN' => $data->where('status', 'DIAJUKAN')->count(),
-            'DIPROSES' => $data->where('status', 'DIPROSES')->count(),
-            'DITANGGUHKAN' => $data->where('status', 'DITANGGUHKAN')->count(),
-            'PERINTAH_SETOR' => $data->where('status', 'PERINTAH_SETOR')->count(),
-            'DIBAYAR' => $data->where('status', 'DIBAYAR')->count(),
-            'TERBIT_SHT' => $data->where('status', 'TERBIT_SHT')->count(),
-        ];
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
     }
 
+    $pengajuans = $query
+        ->orderByRaw("CASE status
+            WHEN 'DIAJUKAN'        THEN 1
+            WHEN 'DIPROSES'        THEN 2
+            WHEN 'DITANGGUHKAN'    THEN 3
+            WHEN 'PERINTAH_SETOR'  THEN 4
+            WHEN 'DIBAYAR'         THEN 5
+            WHEN 'TERBIT_SHT'      THEN 6
+            ELSE 7 END")
+        ->latest()
+        ->get();
+
+    $statistik = $this->generateStatistikBank();
+
+    return view('dashboard.bank', compact('pengajuans', 'statistik'));
+}
+
+// SESUDAH
+private function generateStatistikBank()
+{
+    $counts = Pengajuan::whereNotIn('status', ['UPLOAD', 'SELESAI'])
+        ->selectRaw('status, COUNT(*) as total')
+        ->groupBy('status')
+        ->pluck('total', 'status');
+
+    $statusList = [
+        'DIAJUKAN', 'DIPROSES', 'DITANGGUHKAN',
+        'PERINTAH_SETOR', 'DIBAYAR', 'TERBIT_SHT'
+    ];
+
+    return collect($statusList)
+        ->mapWithKeys(fn($s) => [$s => $counts->get($s, 0)])
+        ->all();
+}
     /*
     |--------------------------------------------------------------------------
     | ARSIP SELESAI
     |--------------------------------------------------------------------------
     */
-    public function arsipSelesai(Request $request)
-    {
-        $user = Auth::user();
+    // SESUDAH
+public function arsipSelesai(Request $request)
+{
+    $user = Auth::user();
 
-        $query = Pengajuan::with('ppat')
-            ->where('status', 'SELESAI');
-
-        if ($user->role === 'PPAT') {
-            $query->where('user_id', $user->id);
-        }
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-
-            $query->where(function ($q) use ($search) {
-                $q->where('nama_debitur', 'like', "%$search%")
-                  ->orWhere('no_sertifikat', 'like', "%$search%")
-                  ->orWhereHas('ppat', function ($ppat) use ($search) {
-                      $ppat->where('name', 'like', "%$search%");
-                  });
-            });
-        }
-
-        $pengajuans = $query->latest()->get();
-
-        $statistik = [
-            'SELESAI' => $query->count(),
-        ];
-
-        return view('dashboard.arsip', compact('pengajuans', 'statistik'));
+    // Query untuk hitung total (tidak terpengaruh filter search)
+    $countQuery = Pengajuan::where('status', 'SELESAI');
+    if ($user->role === 'PPAT') {
+        $countQuery->where('user_id', $user->id);
     }
+    $totalSelesai = $countQuery->count();
+
+    // Query untuk data tampil (dengan filter search)
+    $query = Pengajuan::with('ppat')->where('status', 'SELESAI');
+
+    if ($user->role === 'PPAT') {
+        $query->where('user_id', $user->id);
+    }
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('nama_debitur', 'like', "%$search%")
+              ->orWhere('no_sertifikat', 'like', "%$search%")
+              ->orWhereHas('ppat', function ($ppat) use ($search) {
+                  $ppat->where('name', 'like', "%$search%");
+              });
+        });
+    }
+
+    $pengajuans = $query->latest()->get();
+
+    $statistik = [
+        'SELESAI' => $totalSelesai,
+    ];
+
+    return view('dashboard.arsip', compact('pengajuans', 'statistik'));
+}
 }

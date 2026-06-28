@@ -37,19 +37,6 @@
                 </div>
             </div>
 
-            {{-- DELETE ACCOUNT --}}
-            <div class="bg-white rounded-xl shadow-sm border border-red-200 overflow-hidden">
-                <div class="bg-red-600 px-6 py-4">
-                    <h3 class="text-white font-semibold">
-                        Hapus Akun
-                    </h3>
-                </div>
-
-                <div class="p-6">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-
         </div>
     </div>
 

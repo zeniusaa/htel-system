@@ -27,8 +27,6 @@ Route::middleware(['auth'])->group(function () {
     // PENGAJUAN — PPAT
     // =========================
 
-    Route::get('/pengajuan', [PengajuanController::class, 'index'])
-        ->name('pengajuan.index');
 
     Route::get('/pengajuan/create', [PengajuanController::class, 'create'])
         ->name('pengajuan.create');
@@ -77,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
         [PengajuanController::class, 'uploadBuktiBayar']
     )->name('pengajuan.uploadBuktiBayar');
 
-    Route::post('/pengajuan/{id}/selesai', 
+    Route::post('/pengajuan/{id}/selesai',
         [PengajuanController::class, 'selesai']
     )->name('pengajuan.selesai');
 
@@ -139,14 +137,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/users/{id}/toggle', [UserController::class,'toggleStatus'])->name('users.toggle');
 
-    Route::get('/debug-cloudinary', function () {
-    return [
-        'cloud_url'  => config('cloudinary.cloud_url'),
-        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-        'key'        => env('CLOUDINARY_KEY') ? 'SET' : 'NULL',
-        'secret'     => env('CLOUDINARY_SECRET') ? 'SET' : 'NULL',
-    ];
-});
 
 });
 
