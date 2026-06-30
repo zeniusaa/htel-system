@@ -377,12 +377,36 @@
 
                         {{-- Status: DIPROSES --}}
                     @elseif ($pengajuan->status === 'DIPROSES')
-                        <div class="bg-green-50 border-l-4 border-green-500 rounded-lg p-5">
+                        <div class="bg-green-50 border-l-4 border-green-500 rounded-lg p-5 mb-4">
                             <p class="text-green-700 font-semibold mb-4">Pengajuan sudah diproses oleh Bank</p>
                             <a href="{{ route('bank.downloadZip', $pengajuan->id) }}"
                                 class="inline-flex items-center gap-2 px-4 py-2 bg-[#00A39D] hover:bg-[#008C86] text-white text-sm font-medium rounded-lg transition-colors duration-200">
                                 Unduh Semua Dokumen (ZIP)
                             </a>
+                        </div>
+
+                        <div class="border-t border-gray-200 pt-4">
+                            <form method="POST" action="{{ route('bank.pengajuan.updateStatus', $pengajuan->id) }}"
+                                onsubmit="return confirm('Yakin tangguhkan pengajuan ini? PPAT akan diminta memperbaiki dan mengajukan ulang.')"
+                                class="space-y-4">
+                                @csrf
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                        Catatan Validasi
+                                    </label>
+                                    <textarea name="catatan" rows="4"
+                                        class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-[#00A39D] focus:border-transparent resize-none"
+                                        placeholder="Isi catatan jika dokumen tidak sesuai..."></textarea>
+                                </div>
+
+                                <div class="flex justify-end pt-2">
+                                    <button type="submit" name="status" value="DITANGGUHKAN"
+                                        class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
+                                        Tangguhkan
+                                    </button>
+                                </div>
+                            </form>
                         </div>
 
                         {{-- Status: DITANGGUHKAN --}}
