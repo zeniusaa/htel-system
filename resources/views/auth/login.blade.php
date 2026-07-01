@@ -20,7 +20,7 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-between">
+        {{-- <div class="flex items-center justify-between">
             <label class="flex items-center">
                 <input type="checkbox" name="remember"
                     class="rounded border-gray-300 text-[#00A39D] focus:ring-[#00A39D]">
@@ -32,17 +32,17 @@
                     Lupa Password?
                 </a>
             @endif
-        </div>
+        </div> --}}
 
         <x-primary-button class="w-full">
             Login
         </x-primary-button>
 
-        <p class="text-sm text-center text-gray-600">
+        {{-- <p class="text-sm text-center text-gray-600">
             Belum punya akun?
             <a href="{{ route('register') }}" class="text-[#F8AD3C] font-semibold hover:underline">
                 Daftar
             </a>
-        </p>
+        </p> --}}
     </form>
 </x-guest-layout>
