@@ -1,59 +1,243 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📸 Screenshot Aplikasi
+
+Berikut merupakan tampilan utama dari **Sistem Informasi Pengajuan Hak Tanggungan Elektronik (HT-el)**.
+
+---
+
+## 📝 Registrasi Akun PPAT
+
+Halaman registrasi digunakan oleh pihak Bank untuk menambahkan akun PPAT yang akan menggunakan sistem.
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<img src="screenshots/register.png" width="100%">
 </p>
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🔐 Login
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Seluruh pengguna melakukan autentikasi menggunakan username dan password sesuai hak akses masing-masing.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<p align="center">
+<img src="screenshots/login page.png" width="100%">
+</p>
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 📊 Dashboard PPAT
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Dashboard utama PPAT yang menampilkan statistik pengajuan serta daftar pengajuan yang sedang diproses.
 
-## Laravel Sponsors
+<p align="center">
+<img src="screenshots/dasboard ppat.png" width="100%">
+</p>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🏦 Dashboard Bank
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Dashboard Bank untuk memonitor seluruh pengajuan yang masuk dari PPAT.
 
-## Contributing
+<p align="center">
+<img src="screenshots/dashboard bank.png" width="100%">
+</p>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 📝 Halaman Pengajuan HT-el
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+PPAT menginput seluruh data debitur beserta informasi Hak Tanggungan.
 
-## Security Vulnerabilities
+<p align="center">
+<img src="screenshots/halaman pengajuan.png" width="100%">
+</p>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 📂 Upload Dokumen Pengajuan
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+PPAT mengunggah seluruh dokumen persyaratan pengajuan.
+
+<p align="center">
+<img src="screenshots/halaman pengajuan 2.png" width="100%">
+</p>
+
+---
+
+## 📋 Ringkasan Pengajuan
+
+Tahap akhir sebelum pengajuan dikirim ke Bank.
+
+<p align="center">
+<img src="screenshots/halaman pengajuan 3.png" width="100%">
+</p>
+
+---
+
+## 📄 Detail Pengajuan
+
+Menampilkan seluruh informasi pengajuan beserta dokumen yang telah diunggah.
+
+<p align="center">
+<img src="screenshots/detail pengajuan.png" width="100%">
+</p>
+
+---
+
+## 📑 Detail Dokumen
+
+Menampilkan informasi tambahan mengenai dokumen yang telah diunggah.
+
+<p align="center">
+<img src="screenshots/detail pengajuan 2.png" width="100%">
+</p>
+
+---
+
+## ⚠️ Pengajuan Ditangguhkan
+
+Jika terdapat kesalahan data atau dokumen, Bank memberikan catatan revisi sehingga PPAT dapat melakukan perbaikan.
+
+<p align="center">
+<img src="screenshots/ditangguhkan.png" width="100%">
+</p>
+
+---
+
+## ✏️ Edit Data Pengajuan
+
+PPAT dapat memperbaiki data pengajuan tanpa perlu membuat pengajuan baru.
+
+<p align="center">
+<img src="screenshots/edit data pengajuan.png" width="100%">
+</p>
+
+---
+
+## ✔️ Validasi Pengajuan (Bagian Atas)
+
+Bank melakukan pemeriksaan data dan dokumen yang dikirimkan oleh PPAT.
+
+<p align="center">
+<img src="screenshots/halaman validasi 1.png" width="100%">
+</p>
+
+---
+
+## ✔️ Validasi Pengajuan (Bagian Bawah)
+
+Bank menentukan status pengajuan serta memberikan catatan apabila diperlukan.
+
+<p align="center">
+<img src="screenshots/halaman validasi 2.png" width="100%">
+</p>
+
+---
+
+## 🔄 Status Diproses
+
+Pengajuan telah lolos validasi dan sedang diproses oleh pihak Bank.
+
+<p align="center">
+<img src="screenshots/diproses.png" width="100%">
+</p>
+
+---
+
+## 💰 Surat Perintah Setor (Bank)
+
+Bank mengunggah Surat Perintah Setor (SPS) ke dalam sistem.
+
+<p align="center">
+<img src="screenshots/sps.png" width="100%">
+</p>
+
+---
+
+## 💳 Surat Perintah Setor (PPAT)
+
+PPAT mengunduh SPS sebagai dasar melakukan pembayaran.
+
+<p align="center">
+<img src="screenshots/sps ppat.png" width="100%">
+</p>
+
+---
+
+## 💵 Konfirmasi Pembayaran
+
+Setelah pembayaran dilakukan, bukti pembayaran diunggah ke dalam sistem.
+
+<p align="center">
+<img src="screenshots/sudah bayar.png" width="100%">
+</p>
+
+---
+
+## 📜 Sertifikat Hak Tanggungan (Bank)
+
+Bank mengunggah Sertifikat Hak Tanggungan Elektronik yang telah diterbitkan.
+
+<p align="center">
+<img src="screenshots/sht.png" width="100%">
+</p>
+
+---
+
+## 📥 Sertifikat Hak Tanggungan (PPAT)
+
+PPAT dapat mengunduh Sertifikat Hak Tanggungan yang telah diterbitkan.
+
+<p align="center">
+<img src="screenshots/sht ppat.png" width="100%">
+</p>
+
+---
+
+## 🗂 Arsip Pengajuan
+
+Seluruh pengajuan yang telah selesai maupun yang masih berjalan tersimpan dalam arsip digital.
+
+<p align="center">
+<img src="screenshots/arsip.png" width="100%">
+</p>
+
+---
+
+## 👥 Kelola Akun PPAT
+
+Bank dapat melihat dan mengelola akun PPAT yang terdaftar pada sistem.
+
+<p align="center">
+<img src="screenshots/kelola user.png" width="100%">
+</p>
+
+---
+
+## ➕ Tambah Akun PPAT
+
+Halaman untuk menambahkan akun PPAT baru.
+
+<p align="center">
+<img src="screenshots/tambah user.png" width="100%">
+</p>
+
+---
+
+## 👤 Profil Pengguna
+
+Halaman yang menampilkan informasi akun pengguna serta pengaturan profil.
+
+<p align="center">
+<img src="screenshots/profil.png" width="100%">
+</p>
+
+---
+
+## 🚀 Iterasi Pengembangan
+
+Perbandingan tampilan sebelum dan sesudah proses iterasi berdasarkan masukan pengguna pada metode Rapid Application Development (RAD).
+
+<p align="center">
+<img src="screenshots/ITERASI.png" width="100%">
+</p>
